@@ -65,7 +65,9 @@ print(f'測試 RMSE: {np.sqrt(mean_squared_error(y_test, y_pred_test)):.4f}')
 # === Step 4：視覺化 ===
 plt.figure(figsize=(8, 5))
 plt.scatter(X_test, y_test, color='blue', label='Actual')
-plt.plot(X_test, y_pred_test, color='red', linewidth=2, label='Predicted')
+# 排序後畫線，避免鋸齒
+sort_idx = X_test.values.flatten().argsort()
+plt.plot(X_test.values.flatten()[sort_idx], y_pred_test[sort_idx], color='red', linewidth=2, label='Predicted')
 plt.xlabel('Ad Spend (萬元)')
 plt.ylabel('Sales (萬元)')
 plt.title('簡單線性迴歸：廣告花費 vs 銷售額')
@@ -164,8 +166,11 @@ from sklearn.metrics import (classification_report, confusion_matrix,
                              ConfusionMatrixDisplay, roc_curve, auc)
 
 # === 載入 Titanic 資料 ===
+# 線上載入
 url = 'https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv'
 titanic = pd.read_csv(url)
+# 若網路不通，改用離線備份：
+# titanic = pd.read_csv('data/titanic.csv')
 
 # 選取特徵並處理
 titanic = titanic[['Survived', 'Pclass', 'Age', 'Fare', 'SibSp']].dropna()

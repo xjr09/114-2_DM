@@ -144,8 +144,11 @@ from sklearn.svm import SVC
 from sklearn.metrics import classification_report, ConfusionMatrixDisplay
 
 # === 載入 Titanic 資料 ===
+# 線上載入
 url = 'https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv'
 titanic = pd.read_csv(url)
+# 若網路不通，改用離線備份：
+# titanic = pd.read_csv('data/titanic.csv')
 titanic = titanic[['Survived', 'Pclass', 'Age', 'Fare', 'SibSp']].dropna()
 
 X = titanic[['Pclass', 'Age', 'Fare', 'SibSp']]
